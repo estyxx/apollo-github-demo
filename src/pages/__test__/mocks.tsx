@@ -1,0 +1,356 @@
+import { IssueState, RepositoryQuery, CommentAuthorAssociation } from "../../types";
+
+export const repositoryResult: RepositoryQuery = {
+  __typename: "Query",
+  repository: {
+    issues: {
+      edges: [
+        {
+          node: {
+            title: "Interfaces should not work with input types",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1236",
+            createdAt: "2021-09-12T19:13:00Z",
+            id: "MDU6SXNzdWU5OTQyMzk4Njk=",
+            number: 1236,
+            state: IssueState.Open,
+            updatedAt: "2021-09-12T23:08:14Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              "based on this stackoverflow question, graphql doesn't support interfaces with input types, and yet strawberry allows this:\nimport strawberry\n\n@strawberry.interface\nclass SomeInterface:\n    some_arg: str\n\n@strawberry.input\nclass SomeInput(SomeInterface): # this should throw an error\n    another_arg: str",
+            author: { login: "ZeroIntensity", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Should we have a base class exception? `StrawberryException`",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1253",
+            createdAt: "2021-09-15T13:57:13Z",
+            id: "I_kwDOCbJ3R847btIz",
+            number: 1253,
+            state: IssueState.Open,
+            updatedAt: "2021-09-17T22:07:27Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "As the title says, should we have a base class exception to inherit from? Instead of inheriting from Exception. This facilitates catching strawberry-only exceptions.\nclass StrawberryException(Exception):\n   pass",
+            author: { login: "scratchmex", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Standardise context creation and access",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1258",
+            createdAt: "2021-09-17T13:34:19Z",
+            id: "I_kwDOCbJ3R847kQiU",
+            number: 1258,
+            state: IssueState.Open,
+            updatedAt: "2021-09-18T07:07:51Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              'At the moment the Django and Sanic integrations return a custom dataclass from the default implementation of get_context. This allows gives a nicer developer experience because you can access properties via dict or attribute notation. However if you override the get_context method to customise the context and return a dictionary (which is what the docs recommend) it can break assumptions made elsewhere.\nI propose that we standardise how the context is created by wrapping whatever is returned from get_context in a StrawberryContext wrapper class. This would also allow us to store internal data in the context which might be useful in custom fields or extensions.\nSomething like this:\nclass MyGraphQLView(GraphQLView):\n\tdef get_context(self, request, response):\n\t\treturn {\n\t\t\t"request": request,\n\t\t\t"response": response,\n\t\t\t"current_time": datetime.now(),\n\t\t}\n\n@strawberry.type\nclass Query:\n\t@strawberry.field\n\tdef current_time(self, info) -> str:\n\t\tcontext = info.context  # type is StrawberryContext\n\t\treturn context.current_time.isoformat()\nAlso I think it should be possible (and encouraged) to modify context using extensions rather than having to override the base view.\nOnly concern I have is how we type this. Thoughts @strawberry-graphql/core  ?',
+            author: { login: "jkimbo", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Errors in subscriptions don't get logged",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1259",
+            createdAt: "2021-09-17T14:07:12Z",
+            id: "I_kwDOCbJ3R847kZCz",
+            number: 1259,
+            state: IssueState.Open,
+            updatedAt: "2021-10-03T17:11:26Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "At the moment if an error is raised in a subscription it doesn't go through the process_error function on the schema and so doesn't get logged. The process_error function should be called whenever there is an error in subscriptions.",
+            author: { login: "jkimbo", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Update graphiql version",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1268",
+            createdAt: "2021-09-21T15:41:15Z",
+            id: "I_kwDOCbJ3R847xIWl",
+            number: 1268,
+            state: IssueState.Open,
+            updatedAt: "2021-10-09T18:10:50Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              "Update GraphiQL page to use newer graphiQL, specifically version:\n\nhttps://unpkg.com/graphiql@1.4.2\nhttps://unpkg.com/graphiql@1.4.2\n\nFrom current version:\n\nhttps://unpkg.com/graphiql-with-extensions@0.14.3/\n\nOld Build:\n\nNew Build (includes Merge and Request Headers)",
+            author: { login: "chadhamre", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title:
+              "Investigate if we can/should allow returning dictionaries in `load_fn` for dataloaders",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1285",
+            createdAt: "2021-10-01T10:55:20Z",
+            id: "I_kwDOCbJ3R848ZDuu",
+            number: 1285,
+            state: IssueState.Open,
+            updatedAt: "2021-10-01T13:33:30Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "Currently we allow to return list in load functions for dataloaders, as shown in our example:\nfrom typing import List\n\nasync def load_users(keys: List[int]) -> List[User]:\n    return [User(id=key) for key in keys]\nwe could allow returning dictionaries too:\nfrom typing import List\n\nasync def load_users(keys: List[int]) -> List[User]:\n    return {id: User(id=key) for key in keys}",
+            author: { login: "patrick91", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Update documentation code snippets to run as is",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1294",
+            createdAt: "2021-10-04T10:48:57Z",
+            id: "I_kwDOCbJ3R848f_qL",
+            number: 1294,
+            state: IssueState.Open,
+            updatedAt: "2021-10-04T16:38:17Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "As suggested by @Kludex we should be allow to copy a snippet of code from our documentation and run it as is, without code changes. Pydantic does this in their docs :)\nI think this might be a good first issue, if you want to work on this feel free to choose any code snippet and send a PR for it, no need to convert all of them at once 😊",
+            author: { login: "patrick91", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Add action to test code snippets in documentation",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1295",
+            createdAt: "2021-10-04T10:50:22Z",
+            id: "I_kwDOCbJ3R848f_7w",
+            number: 1295,
+            state: IssueState.Open,
+            updatedAt: "2021-10-04T11:03:26Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "As suggested here we should allow to have code blocks that can run as is, to make it easier to check them we should have github action that runs them.\nNot sure if we should check the output of the snippets, I think for now we can just check if they run as python scripts :)",
+            author: { login: "patrick91", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title:
+              "Create Exceptions page in the docs that shows all the errors strawberry can throw",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1298",
+            createdAt: "2021-10-04T14:36:59Z",
+            id: "I_kwDOCbJ3R848g7ct",
+            number: 1298,
+            state: IssueState.Open,
+            updatedAt: "2021-10-04T14:36:59Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText: "",
+            author: { login: "estyxx", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Create extension to run pyinstrument",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1308",
+            createdAt: "2021-10-05T13:43:53Z",
+            id: "I_kwDOCbJ3R848lEQe",
+            number: 1308,
+            state: IssueState.Open,
+            updatedAt: "2021-10-06T15:10:45Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              'We should create an extension that allows you to profile your request using https://github.com/joerick/pyinstrument\nShould probably an argument that lets you specify the path for the profile report.\nExample API:\nschema = strawberry.Schema(\n\tQuery,\n\textensions=[\n\t\tPyInstrument(report_path="./my-report.html")\n\t]',
+            author: { login: "jkimbo", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Add warnings when adding properties without any type hint",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1312",
+            createdAt: "2021-10-06T13:45:17Z",
+            id: "I_kwDOCbJ3R848svB7",
+            number: 1312,
+            state: IssueState.Open,
+            updatedAt: "2021-10-10T17:19:31Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "The code below works fine but it might not be what the user expects, maybe abc was supposed to be a string on the type.\n@strawberry.type\nclass SomethingSomething:\n    id: strawberry.ID\n    abc = str\n\nwe should raise a warning when we see something like this (if possible).\nThe warning should mention to add the type and also that the user can use strawberry.Private if they want to have a property that's not exposed on the schema",
+            author: { login: "patrick91", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "opentelemetry fails to register inputs that are not primitives",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1314",
+            createdAt: "2021-10-06T18:12:08Z",
+            id: "I_kwDOCbJ3R848uzpX",
+            number: 1314,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T06:54:26Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              "When the input to a GQL Query is an object, telemetry fails to register the graphql.param attribute because this line doesn't account for the input being an object instead of a primitive. I suggest we consider applying a json.dump if value is seen to be a dict:\nhttps://github.com/strawberry-graphql/strawberry/blob/main/strawberry/extensions/tracing/opentelemetry.py#L100\nI get this error:\nInvalid type dict for attribute value. Expected one of ['bool', 'str', 'bytes', 'int', 'float'] or a sequence of those types\nFull example to reproduce:\nfrom __future__ import annotations\n\nimport typing\nfrom enum import Enum\n\nimport strawberry\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace import TracerProvider\nfrom opentelemetry.sdk.trace.export import (\n    ConsoleSpanExporter,\n    BatchSpanProcessor\n)\nfrom starlette.requests import Request\nfrom starlette.websockets import WebSocket\nfrom strawberry.asgi import GraphQL\nfrom strawberry.extensions.tracing import OpenTelemetryExtension\nfrom strawberry.schema import BaseSchema\nfrom strawberry.types import Info\n\ntrace.set_tracer_provider(TracerProvider())\ntrace.get_tracer_provider().add_span_processor(\n        BatchSpanProcessor(ConsoleSpanExporter())\n)\n\n\nclass API(GraphQL):\n    def __init__(self, config, schema: BaseSchema, *args, **kwargs):\n        super().__init__(schema, *args, **kwargs)\n        self.config = config\n\n    async def get_context(self, request: typing.Union[Request, WebSocket], *args, **kwargs) -> typing.Any:\n        return {\n            'config': self.config,\n        }\n\n\n@strawberry.type\nclass Greeting:\n    message: str\n\n\n@strawberry.enum\nclass Mood(Enum):\n    Happy = \"Happy\"\n    Sad = \"Sad\"\n\n\n@strawberry.input\nclass GreetInput:\n    name: str\n    mood: Mood\n\n\n@strawberry.federation.type(extend=True)\nclass Query:\n    @strawberry.field\n    async def greet(self, info: Info, input: GreetInput) -> Greeting:\n        config = info.context['config']\n\n        return Greeting(\n                message=\"Hi {}. Glad to hear you're glad!\".format(input.name)\n        ) if input.mood == Mood.Happy else Greeting(\n                message=\"Hi {}, I hope you feel better !\".format(input.name))\n\n    @strawberry.field\n    async def secret_greet(self, info: Info, input: GreetInput) -> Greeting:\n        config = info.context['config']\n\n        return Greeting(message=\"{}, {}\".format(input.name, config['secret_message']))\n\n\ndef get_schema():\n    return strawberry.federation.Schema(query=Query, extensions=[OpenTelemetryExtension])\ncurl 'http://0.0.0.0:8070/' \\\n  -H 'Accept: application/json' \\\n  -H 'Content-Type: application/json' \\\n  --header \"X-Cloud-Trace-Context:105445aa7843bc8bf206b12000100000/1;o=1\" \\\n  --data-raw '{\"query\":\"{\\n  secretGreet(input:{name:\\\"Omar\\\", mood: Happy}){\\n    message\\n  }\\n}\",\"variables\":null}' \\\n  --compressed \\\n  --insecure",
+            author: { login: "omarzouk", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title:
+              "Add quotes around Pip extra installs in `README`/docs to support ZSH shells",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1326",
+            createdAt: "2021-10-11T02:02:32Z",
+            id: "I_kwDOCbJ3R8487S8L",
+            number: 1326,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T11:44:41Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              "Hello, I wanted to try out this package but I can't install the extra dependency debug-server.\npip install strawberry-graphql is successful, but pip install strawberry-graphql[debug-server] is not.\n❯ pip install strawberry-graphql[debug-server]\nzsh: no matches found: strawberry-graphql[debug-server]\nEnvironment\n\nPython version: 3.10.0 (installed with pyenv)\nOS: Fedora 34\nShell: zsh",
+            author: { login: "ajhynes7", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "`Annotated` is not supported",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1327",
+            createdAt: "2021-10-11T11:07:21Z",
+            id: "I_kwDOCbJ3R8488yWS",
+            number: 1327,
+            state: IssueState.Open,
+            updatedAt: "2021-10-11T11:07:33Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "The following snippets\n@strawberry.input\nclass AddBookInput:\n    title: str\n    author: Annotated[str, \"PII\"]\nRaises the following error when used in a schema:\nTypeError: AddBookInput fields cannot be resolved. Unexpected type 'typing.Annotated[str, 'PII']'\n\nWe should add support for Annotated",
+            author: { login: "patrick91", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "How to disable GraphQL Introspection in Strawberry-graphql?",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1329",
+            createdAt: "2021-10-11T18:05:08Z",
+            id: "I_kwDOCbJ3R848-XQ9",
+            number: 1329,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T08:23:15Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              "I have tried the following to achieve it, but didn't get success.\ngraphql_app = GraphQL(schema, graphiql=False, debug=False)\nI am using Fastapi. Maybe in other framework syntax will be different.\nIt is related to the security concern and must be taken in high preference.\nThank you.",
+            author: { login: "sumitsharansatsangi", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Evaluate rich for use with our CLI",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1331",
+            createdAt: "2021-10-11T21:45:08Z",
+            id: "I_kwDOCbJ3R848--Hy",
+            number: 1331,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T11:36:26Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "As discussed here: #1321 (comment)\ntldr:\n\nEmoji's do not work by default on Windows\nhttps://github.com/willmcgugan/rich provides a cross platform way of interacting with terminals\nEval it, see if it helps with emoji on windows",
+            author: { login: "ossareh", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title:
+              "[Internal] Move `convert_arguments` function into the schema convertor",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1333",
+            createdAt: "2021-10-12T14:35:35Z",
+            id: "I_kwDOCbJ3R849B3y9",
+            number: 1333,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T14:35:35Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "As discussed here #1212 (comment) the convert_arguments function is quite dependant on the schema for options and the scalar registry. Because it's so coupled we should move it into the schema convertor class.",
+            author: { login: "jkimbo", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Correctly set windows path during CI",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1334",
+            createdAt: "2021-10-12T17:19:09Z",
+            id: "I_kwDOCbJ3R849Cex9",
+            number: 1334,
+            state: IssueState.Open,
+            updatedAt: "2021-10-12T17:34:45Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              "We disable the pyright related tests during CI on windows because globally installed npm tools (pyright in this case) are not discoverable via the configured path.\nDetails at: #1321 (comment)",
+            author: { login: "ossareh", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "`merge_type` `types` type hint",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1347",
+            createdAt: "2021-10-13T16:12:18Z",
+            id: "I_kwDOCbJ3R849HwT1",
+            number: 1347,
+            state: IssueState.Open,
+            updatedAt: "2021-10-13T16:12:18Z",
+            authorAssociation: CommentAuthorAssociation.Member,
+            bodyText:
+              'https://github.com/strawberry-graphql/strawberry/blob/main/strawberry/tools/merge_types.py#L9\nThe current Tuple[Type] produces:\n*.py:15:5: error: Argument 2 to "merge_types" has incompatible type "Tuple[Type[QueryA], Type[QueryB], Type[QueryC]]"; expected "Tuple[Type[Any]]"  [arg-type]\n\nAccording to mypy, we should either change it to Tuple[Type, ...] or follow mypy\'s suggestion and go with a generic Sequence.',
+            author: { login: "g-as", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+        {
+          node: {
+            title: "Strawberry unconsistently handle async resolvers to MongoDB",
+            url: "https://github.com/strawberry-graphql/strawberry/issues/1352",
+            createdAt: "2021-10-14T12:56:18Z",
+            id: "I_kwDOCbJ3R849LRYz",
+            number: 1352,
+            state: IssueState.Open,
+            updatedAt: "2021-10-14T13:37:36Z",
+            authorAssociation: CommentAuthorAssociation.None,
+            bodyText:
+              'Hi, I implemented a small GraphQL endpoint with Strawberry on top of FastAPI, but Strawberry is returning inconsistent results with async systems.\nI defined 3 methods:\n\n1 non async to get a hard-coded example user object (as a placebo to show Strawberry works with the non async function in all cases)\n2 async functions to retrieve data from MongoDB\n\nThose 3 functions work well and return the expected results when running through docker-compose locally (Ubuntu 20.04)\nBut the 2 async functions fail when I run the same docker-compose stack on our server (CentOS 7) exposed to a public URL (you can check it yourself!): https://api.fair-enough.semanticscience.org/graphql\nIt returns this error:\n{\n  "data": null,\n  "errors": [\n    {\n      "message": "Task <Task pending name=\'Task-1437\' coro=<ExecutionContext.resolve_field.<locals>.await_result()\n running at /usr/local/lib/python3.8/site-packages/graphql/execution/execute.py:625> \ncb=[gather.<locals>._done_callback() at /usr/local/lib/python3.8/asyncio/tasks.py:769]> \ngot Future <Future pending> attached to a different loop",\n      "locations": [\n        {\n          "line": 2,\n          "column": 2\n        }\n      ],\n      "path": [\n        "collections"\n      ]\n    }\n  ]\n}\nThe code used for resolvers:\n@strawberry.type\nclass Query:\n\n    @strawberry.field\n    def user(self) -> User:\n        return User(name="Patrick", age=100)\n\n    @strawberry.field\n    async def collections(self, id: Optional[str] = None) -> List[CollectionModel]:\n        collections = await db["collections"].find().to_list(1000)\n        collec_list = []\n        for collec in collections:\n            if id and id != collec[\'_id\']:\n                continue\n            collec_list.append(CollectionModel(**collec))\n        return collec_list\nI use Motor async client for MongoDB:\ndb: AsyncIOMotorDatabase = AsyncIOMotorClient(settings.MONGODB_URL, maxPoolSize=10, minPoolSize=10).evaluations\nAnd this version: strawberry-graphql = "^0.81.0"\nIt is really weird to have such a different environment between the local and production. Note that the RESTful API (swagger) works as expected locally and in production: https://api.fair-enough.semanticscience.org/docs\nThe issue seems to be related to the general poor support for async in python. As soon as python see an async keyword it just starts to mess up with the ThreadExecutor. I already deployed a RabbitMQ + Celery to avoid async issues blocking simultaneous call. But here it is quite a sneaky "error"\nAny idea why Strawberry fails to resolve async functions that query MongoDB? Is there any specific trick to handle Motor async client? (it seems like most async implementation in python are ad hoc to each package, and you need to be really lucky to find libraries which implemented it properly)\nFor more details:\n\nHere is the file to define GraphQL schema and resolvers: https://github.com/MaastrichtU-IDS/fair-enough/blob/main/backend/app/graphql.py\nHere is the full repo: https://github.com/MaastrichtU-IDS/fair-enough\nYes, I already regret to have used python for building an async API',
+            author: { login: "vemonet", __typename: "User" },
+            __typename: "Issue",
+          },
+          __typename: "IssueEdge",
+        },
+      ],
+      __typename: "IssueConnection",
+    },
+    __typename: "Repository",
+  },
+};

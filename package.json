@@ -3,20 +3,52 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3005",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p 3005",
+    "lint": "next lint",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "codegen": "graphql-codegen --require dotenv/config  --config codegen.yml dotenv_config_path=.env",
+    "codegen:watch": "graphql-codegen --require dotenv/config  --config codegen.yml dotenv_config_path=.env --watch"
+  },
+  "lint-staged": {
+    "*.{ts,js,css,tsx,jsx}": [
+      "yarn format"
+    ],
+    "*.{json,md}": [
+      "yarn format"
+    ]
   },
   "dependencies": {
+    "@apollo/client": "^3.4.16",
+    "@chakra-ui/react": "^1.6.9",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "framer-motion": "^4.1.17",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-feather": "^2.0.9",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@types/react": "17.0.29",
+    "@apollo/react-testing": "^4.0.0",
+    "@graphql-codegen/cli": "^2.2.1",
+    "@graphql-codegen/typescript": "^2.2.3",
+    "@graphql-codegen/typescript-operations": "^2.1.7",
+    "@graphql-codegen/typescript-react-apollo": "^3.1.5",
+    "@testing-library/dom": "^8.9.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.3.0",
+    "@types/node": "^16.10.9",
+    "@types/react": "^17.0.29",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
-    "typescript": "4.4.4"
+    "jest": "^27.2.5",
+    "lint-staged": "^11.2.3",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.4"
   }
 }
